@@ -76,6 +76,55 @@
  *
  */
 
+const hft = require('happyfuntimes');
+
+const GameServer = new hft.GameServer();
+
+function handleFoo(data) {
+    console.log(JSON.stringify(data));
+}
+
+GameServer.on('move', handleFoo);
+netPlayer.addEventListener('disconnect', Player.prototype.disconnect.bind(this));
+
+
+var Player = function(netPlayer, name) {
+    this.netPlayer = netPlayer;
+    this.name = name;
+    this.position = pickRandomPosition();
+    this.color = "green";
+
+    netPlayer.addEventListener('disconnect', Player.prototype.disconnect.bind(this));
+    netPlayer.addEventListener('move', Player.prototype.movePlayer.bind(this));
+
+    this.playerNameManager = new PlayerNameManager(netPlayer);
+    this.playerNameManager.on('setName', Player.prototype.handleNameMsg.bind(this));
+};
+
+// The player disconnected.
+Player.prototype.disconnect = function() {
+    for (var ii = 0; ii < players.length; ++ii) {
+        var player = players[ii];
+        if (player === this) {
+            players.splice(ii, 1);
+            return;
+        }
+    }
+};
+
+Player.prototype.movePlayer = function(cmd) {
+
+};
+
+Player.prototype.handleNameMsg = function(name) {
+    this.name = name;
+};
+
+Player.prototype.setColor = function(cmd) {
+    this.color = cmd.color;
+};
+
+
 cc.game.onStart = function(){
     var sys = cc.sys;
     if(!sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it
@@ -109,3 +158,6 @@ cc.game.onStart = function(){
     }, this);
 };
 cc.game.run();
+
+
+
