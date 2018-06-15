@@ -17,7 +17,6 @@
     <link rel="apple-touch-icon" href="icon.png">
 </head>
 <body touch-action="none">
-<script src="./node_modules/happyfuntimes/dist/hft.js"></script>
 <div id="hft-everything">
     <div id="hft-content">
 
@@ -54,7 +53,10 @@
     <div id="hft-touchstart">
     </div>
 </div>
-<script src="src/controller.js"></script>
+<script data-main="src/controller.js" src="node_modules/requirejs/require.js"></script>
+<!--<script src="./node_modules/happyfuntimes/dist/hft.js"></script>-->
+<!--<script src="./node_modules/requirejs/require.js"></script>-->
+<!--<script src="src/controller.js"></script>-->
 </body>
 </html>
 
