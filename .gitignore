@@ -57,3 +57,4 @@ fabric.properties
 simulator/
 node_modules/
 frameworks/
+package-lock.json
