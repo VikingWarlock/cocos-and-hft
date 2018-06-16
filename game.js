@@ -109,10 +109,10 @@ class Player{
         console.log(JSON.stringify(cmd));
     };
     action1(cmd){
-
+        console.log("a "+cmd.operation);
     };
     action2(cmd){
-
+        console.log("b "+cmd.operation);
     };
 }
 

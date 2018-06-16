@@ -1,31 +1,140 @@
 "use strict";
 
-requirejs(['./node_modules/happyfuntimes/dist/hft.js', './node_modules/hft-sample-ui/dist/sample-ui.js']
+
+
+
+requirejs(['./node_modules/happyfuntimes/dist/hft.js']
     , function (hft, sampleUI) {
         const GameClient = hft.GameClient;
-        var Input = sampleUI.input;
 
         const g_client = new GameClient();
-        var inputElem = document.getElementById("inputarea");
+        var move_element = document.getElementById("movingArea");
+        var action_a_element=document.getElementById("action-button-a");
+        var action_b_element=document.getElementById("action-button-b");
+
+        var init_x;
+        var init_y;
+
+        var last_x_axis;
+        var last_y_axis;
+
+        var first_touch_id;
 
         g_client.on("connect",function(){
            console.log("connected");
         });
 
 // Send a message to the game when the screen is touched
-        inputElem.addEventListener('pointerdown', function (event) {
-            var position = Input.getRelativeCoordinates(event.target, event);
-            sendMoveCmd(position, event.target);
+
+        move_element.addEventListener('touchstart', function (event) {
+            first_touch_id=event.targetTouches.item(0).identifier;
+            init_x=event.targetTouches.item(0).clientX;
+            init_y=event.targetTouches.item(0).clientY;
             event.preventDefault();
         });
 
+        move_element.addEventListener("touchmove",function (event) {
+            var touches=event.targetTouches;
+            var touch=null;
+            var i=0;
+            for (i=0;i<touches.length;i++){
+                if (touches.item(i).identifier===first_touch_id){
+                    touch=touches.item(i);
+                    sendMoveCmd(touch.clientX-init_x, touch.clientY-init_y);
+                    break;
+                }
+            }
+            event.preventDefault();
+        });
 
-        var sendMoveCmd = function (position, target) {
+        move_element.addEventListener("touchend",function (event) {
+            init_x=null;
+            init_y=null;
+            first_touch_id=null;
+            last_x_axis=null;
+            last_y_axis=null;
+            sendMoveCmd(0,0);
+            event.preventDefault();
+        });
+        move_element.addEventListener("touchcancel",function (event) {
+            init_x=null;
+            init_y=null;
+            last_x_axis=null;
+            last_y_axis=null;
+            first_touch_id=null;
+            sendMoveCmd(0,0);
+            event.preventDefault();
+        });
+
+        //按键手势
+        action_a_element.addEventListener("touchstart",function (event) {
+            sendAction1Down(1);
+            event.preventDefault();
+        });
+
+        action_b_element.addEventListener("touchstart",function (event) {
+            sendAction2Down(1);
+           event.preventDefault();
+        });
+
+        action_a_element.addEventListener("touchend",function (event) {
+            sendAction1Down(0);
+            event.preventDefault();
+        });
+
+        action_b_element.addEventListener("touchend",function (event) {
+            sendAction2Down(0);
+            event.preventDefault();
+        })
+
+
+        //sending part
+        var sendMoveCmd = function (axis_x, axis_y) {
+
+            if (last_x_axis==null||last_y_axis==null){
+                last_x_axis=Math.round(axis_x/5);
+                last_y_axis=Math.round(axis_y/5);
+                if (last_x_axis>15){
+                    last_x_axis=15;
+                }
+                if (last_y_axis>15){
+                    last_y_axis=15;
+                }
+            }else {
+                var new_x_axis=Math.round(axis_x/5);
+                var new_y_axis=Math.round(axis_y/5);
+                if (new_x_axis>15){
+                    new_x_axis=15;
+                }
+                if (new_y_axis>15){
+                    new_y_axis=15;
+                }
+                if (new_x_axis===last_x_axis&&new_y_axis===last_y_axis){
+                    return;
+                } else {
+                    last_y_axis=new_y_axis;
+                    last_x_axis=new_x_axis;
+                }
+            }
+
             g_client.sendCmd('move', {
-                x: position.x / target.clientWidth,
-                y: position.y / target.clientHeight,
+                x: last_x_axis,
+                y: last_y_axis,
             });
         };
+
+        var sendAction1Down=function (event) {
+            g_client.sendCmd("action1_op",{
+                operation:event,
+            });
+        }
+
+        var sendAction2Down=function (event) {
+            g_client.sendCmd("action2_op",{
+                operation:event,
+            });
+        }
+
 
     });
 
