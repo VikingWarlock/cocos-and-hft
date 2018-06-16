@@ -60,10 +60,10 @@ cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
 
     // Uncomment the following line to set a fixed orientation for your game
-    cc.view.setOrientation(cc.ORIENTATION_PORTRAIT);
+    cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);
 
     // Setup the resolution policy and design resolution size
-    cc.view.setDesignResolutionSize( 640,960, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize( 960,640, cc.ResolutionPolicy.SHOW_ALL);
 
     // The game will be resized when browser size change
     cc.view.resizeWithBrowserSize(true);
@@ -78,9 +78,23 @@ cc.game.onStart = function(){
 class Player{
     constructor(newPlayer){
         this.netPlayer=newPlayer;
+        //hft 断线事件
         this.netPlayer.on("disconnect",this.handlerDisconnect.bind(this));
-        this.netPlayer.on("move",this.handlerMoveCmd.bind(this));
+        //测试操作
+        this.netPlayer.on("move",this.handleMoveCmd.bind(this));
+        //hft 默认事件
         this.netPlayer.on("setname",this.handleSetName.bind(this));
+        //功能键1 按下或者放手
+        this.netPlayer.on("action1_op",this.action1.bind(this));
+        //功能键2 按下或者放手
+        this.netPlayer.on("action2_op",this.action2.bind(this));
+
+        /**
+         * 玩家类型
+         *  0->新玩家,1->驾驶员,2->枪炮手
+         * @type {number}
+         */
+        this.type=0;
     }
     handleSetName(cmd){
 
@@ -91,8 +105,14 @@ class Player{
             players.splice(index,1);
         }
     };
-    handlerMoveCmd(cmd){
+    handleMoveCmd(cmd){
         console.log(JSON.stringify(cmd));
+    };
+    action1(cmd){
+
+    };
+    action2(cmd){
+
     };
 }
 
