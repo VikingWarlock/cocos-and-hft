@@ -18,14 +18,16 @@ body,html{
     position: absolute;
     width: 160px;
     height: 160px;
-    visibility: hidden;
+    /*visibility: hidden;*/
+    display: none;
 }
 
 #moving_bar_current{
     position: absolute;
     width: 96px;
     height: 97px;
-    visibility: hidden;
+    /*visibility: hidden;*/
+    display: none;
 }
 
 #action-button-a{
