@@ -12,6 +12,9 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
         var action_a_element=document.getElementById("action-button-a");
         var action_b_element=document.getElementById("action-button-b");
 
+        var move_pad_base=document.getElementById("moving_bar_init");
+        var move_pad_body=document.getElementById("moving_bar_current");
+
         var init_x;
         var init_y;
 
@@ -19,6 +22,7 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
         var last_y_axis;
 
         var first_touch_id;
+
 
         g_client.on("connect",function(){
            console.log("connected");
@@ -30,6 +34,7 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
             first_touch_id=event.targetTouches.item(0).identifier;
             init_x=event.targetTouches.item(0).clientX;
             init_y=event.targetTouches.item(0).clientY;
+            show_moving_pad_base(init_x,init_y);
             event.preventDefault();
         });
 
@@ -40,6 +45,7 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
             for (i=0;i<touches.length;i++){
                 if (touches.item(i).identifier===first_touch_id){
                     touch=touches.item(i);
+                    move_pad(touch.clientX,touch.clientY);
                     sendMoveCmd(touch.clientX-init_x, touch.clientY-init_y);
                     break;
                 }
@@ -53,6 +59,7 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
             first_touch_id=null;
             last_x_axis=null;
             last_y_axis=null;
+            move_end();
             sendMoveCmd(0,0);
             event.preventDefault();
         });
@@ -87,6 +94,26 @@ requirejs(['./node_modules/happyfuntimes/dist/hft.js']
             event.preventDefault();
         })
 
+        //configure moving pad
+
+        var show_moving_pad_base=function (asix_x,asix_y) {
+            move_pad_base.style.visibility="visible";
+            move_pad_body.style.visibility="visible";
+            move_pad_body.style.left=asix_x-(move_pad_body.style.width/2)+"px";
+            move_pad_body.style.top=asix_y-(move_pad_body.style.height/2)+"px";
+            move_pad_base.style.left=asix_x-(move_pad_base.style.width/2)+"px";
+            move_pad_base.style.top=asix_y-(move_pad_base.style.height/2)+"px";
+        };
+
+        var move_pad=function (asix_x,asix_y) {
+            move_pad_body.style.left=asix_x-(move_pad_body.style.width/2)+"px";
+            move_pad_body.style.top=asix_y-(move_pad_body.style.height/2)+"px";
+        };
+
+        var move_end=function () {
+            move_pad_base.style.visibility='hidden';
+            move_pad_body.style.visibility='hidden';
+        };
 
         //sending part
         var sendMoveCmd = function (axis_x, axis_y) {

@@ -74,6 +74,9 @@ cc.game.onStart = function(){
     }, this);
 };
 
+var BattlegroundScene=cc.Scene.extend({
+
+});
 
 class Player{
     constructor(newPlayer){
