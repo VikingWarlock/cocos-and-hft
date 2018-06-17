@@ -59,11 +59,6 @@ var HelloWorldLayer = cc.Layer.extend({
         });
         this.addChild(this.sprite, 0);
 
-        // setTimeout(function(){
-        //     var layer2=new JumpLayer();
-        //     HelloWorldScene.addChild(layer2);
-        // },3000);
-
         return true;
     }
 });
@@ -92,4 +87,13 @@ var BattlegroundScene = cc.Scene.extend({
     onExit:function () {
         this._super();
     },
+});
+
+var BattlegroundLayer=cc.Layer.extend({
+    sprite:null,
+    ctor:function () {
+        this._super();
+        var size = cc.winSize;
+
+    }
 });

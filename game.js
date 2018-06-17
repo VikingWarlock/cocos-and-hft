@@ -104,6 +104,9 @@ class Player {
         if (index >= 0) {
             players.splice(index, 1);
         }
+        if (players.length===0){
+            cc.director.popScene();
+        }
     };
 
     handleMoveCmd(cmd) {
