@@ -9,10 +9,14 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d"],
+    "modules" : ["cocos2d","uuid-js"],
 
     "jsList" : [
         "src/resource.js",
-        "src/app.js"
+        "src/app.js",
+        "src/Scene/Battleground/Layer/BattlegroundLayer.js",
+        "src/Scene/Battleground/Layer/BattleSpriteLayer.js",
+        "src/Scene/Battleground/Node/BattleSprite.js",
+        "src/Scene/Battleground/BattlegroundScene.js"
     ]
 }

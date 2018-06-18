@@ -7,10 +7,10 @@ var BattlegroundScene = cc.Scene.extend({
     },
     onEnter:function () {
         this._super();
-        var backgroundLayer=new BattlegroundLayer();
-        this.addLayer(backgroundLayer);
+        this.backgroundLayer=new BattlegroundLayer();
+        this.addChild(this.backgroundLayer);
         this.spriteLayer=new BattleSpriteLayer();
-        this.addLayer(this.spriteLayer);
+        this.addChild(this.spriteLayer);
     },
     onEnterTransitionDidFinish:function () {
         this._super();
