@@ -71,29 +71,3 @@ var HelloWorldScene = cc.Scene.extend({
     }
 });
 
-// 战斗场景
-var BattlegroundScene = cc.Scene.extend({
-    ctor: function () {
-        cc.Node.prototype.ctor.call(this);
-        this._ignoreAnchorPointForPosition=true;
-        this.setContentSize(cc.director.getWinSize());
-    },
-    onEnter:function () {
-        this._super();
-    },
-    onEnterTransitionDidFinish:function () {
-        this._super();
-    },
-    onExit:function () {
-        this._super();
-    },
-});
-
-var BattlegroundLayer=cc.Layer.extend({
-    sprite:null,
-    ctor:function () {
-        this._super();
-        var size = cc.winSize;
-
-    }
-});

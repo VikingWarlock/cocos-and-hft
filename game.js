@@ -4,40 +4,7 @@ const GameServer = new hft.GameServer();
 
 var players = [];
 
-var in_game=false;
-
-//
-//var Player = function(netPlayer, name) {
-//    this.netPlayer = netPlayer;
-//    this.name = name;
-//
-//    netPlayer.addEventListener('disconnect', Player.prototype.disconnect.bind(this));
-//    netPlayer.addEventListener('move', Player.prototype.movePlayer.bind(this));
-//
-//    this.playerNameManager = new PlayerNameManager(netPlayer);
-//    this.playerNameManager.on('setName', Player.prototype.handleNameMsg.bind(this));
-//};
-//
-//// The player disconnected.
-//Player.prototype.disconnect = function() {
-//    for (var ii = 0; ii < players.length; ++ii) {
-//        var player = players[ii];
-//        if (player === this) {
-//            players.splice(ii, 1);
-//            return;
-//        }
-//    }
-//};
-//
-//Player.prototype.movePlayer = function(cmd) {
-//    console.log(JSON.stringify(cmd));
-//
-//};
-//
-//Player.prototype.handleNameMsg = function(name) {
-//    this.name = name;
-//};
-
+var in_game = false;
 
 cc.game.onStart = function () {
     var sys = cc.sys;
@@ -104,7 +71,7 @@ class Player {
         if (index >= 0) {
             players.splice(index, 1);
         }
-        if (players.length===0){
+        if (players.length === 0) {
             cc.director.popScene();
         }
     };
@@ -123,10 +90,11 @@ class Player {
 }
 
 function createPlayer(netPlayer, name) {
-    if (in_game==false){
-        in_game=true;
-        var battle_scene=new BattlegroundScene();
-        cc.director.runScene(new cc.TransitionFade(1,battle_scene));
+    if (!in_game) {
+        in_game = true;
+        var battle_scene = new BattlegroundScene();
+        battle_scene.players=players;
+        cc.director.runScene(new cc.TransitionFade(1, battle_scene));
     }
     players.push(new Player(netPlayer, name));
 }
