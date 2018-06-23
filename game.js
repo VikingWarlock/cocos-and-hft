@@ -98,9 +98,10 @@ function createPlayer(netPlayer, name) {
         battle_scene.players=players;
         cc.director.runScene(new cc.TransitionFade(1, battle_scene));
         players.push(new Player(netPlayer, name));
-        cc.scheduleOnce(function () {
-            //将玩家与cocos的sprite进行绑定
-        },1,"");
+        battle_scene.start_running();
+        // cc.scheduleOnce(function () {
+        //     //将玩家与cocos的sprite进行绑定
+        // },1,"");
     }else {
         players.push(new Player(netPlayer, name));
         //将玩家与cocos的sprite进行绑定

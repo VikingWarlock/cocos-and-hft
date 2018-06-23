@@ -19,6 +19,9 @@ var BattlegroundScene = cc.Scene.extend({
         this._super();
     },
     players:null,
+    start_running:function () {
+      this.spriteLayer.start_running(this.players);
+    },
 });
 
 
