@@ -44,6 +44,7 @@ const happyfuntimes = require('happyfuntimes');
 const electron = require('electron');
 const querystring = require('querystring');
 const webContents = electron.webContents;
+const UUID = require('uuid-js');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
